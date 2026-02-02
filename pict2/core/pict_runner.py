@@ -1,4 +1,3 @@
-# myproject/mylib/mylib.py
 import subprocess
 from pathlib import Path
 

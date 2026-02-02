@@ -216,4 +216,4 @@ __marimo__/
 .streamlit/secrets.toml
 
 # exe
-pict2/mylib/pict.exe
+pict2/core/pict.exe
