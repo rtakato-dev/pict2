@@ -7,6 +7,7 @@ test cases from PICT model files.
 
 import argparse
 from pathlib import Path
+from typing import Any
 
 from pict2.core.pict_runner import PictRunner
 from pict2.mylib.normlize_pict_output import normalize_pict_output
@@ -28,11 +29,31 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument(
         "-o",
+        "--order",
         dest="order",
         help="Combination order (number or 'max')",
     )
 
+    parser.add_argument(
+        "-f",
+        "--file",
+        dest="file",
+        help="Output file path",
+    )
+
     return parser.parse_args()
+
+
+PICT_OPTION_TABLE: dict[str, dict[str, Any]] = {
+    "order": {
+        "has_value": True,
+        "to_pict": lambda v: f"/o:{v}",
+    },
+    "random": {
+        "has_value": "optional",
+        "to_pict": lambda v: "/r" if v is None else f"/r:{v}",
+    },
+}
 
 
 def main() -> None:
@@ -40,17 +61,22 @@ def main() -> None:
 
     pict_options = []
 
-    # -o の扱い（最小実装）
-    if args.order is not None:
-        pict_options.extend(["/o:" + args.order])
-
     if args.order is None:
-        pict_options.extend(["/o:max"])
+        pict_options.append("/o:max")
+
+    for key, value in vars(args).items():
+        if key == "file":
+            output_path = value
+        elif key in PICT_OPTION_TABLE:
+            rule = PICT_OPTION_TABLE[key]
+            if value is not None:
+                pict_options.append(rule["to_pict"](value))
 
     runner = PictRunner()
     output = runner.run(
         model_path=args.model,
         pict_options=pict_options,
+        output_path=None,
     )
 
     model_def = parse_model_definition(args.model)
@@ -62,4 +88,8 @@ def main() -> None:
     )
     output = output[0] + "\n" + "\n".join(output[1:])  # ヘッダを先頭に追加
 
-    print(output)
+    if output_path is not None:
+        with open(output_path, "w", encoding="utf-8", newline="") as f:
+            f.write(output)
+    else:
+        print(output)
