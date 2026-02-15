@@ -1,3 +1,7 @@
 Vista Edition:  Ultimate, Business, Home Premium, Home Basic
 RAM:	   	0.5G, 1G, 1.5G, 2G
 GRAM:	   	64M, 128M, 256M, 512M
+
+{Vista Edition,RAM}@1
+
+IF [RAM] = "0.5G" THEN [GRAM] = "64M";

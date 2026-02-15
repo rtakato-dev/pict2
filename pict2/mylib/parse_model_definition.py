@@ -1,21 +1,19 @@
 from pathlib import Path
-from typing import Dict, List
+import re
 
 
-def parse_model_definition(model_path: Path) -> Dict[str, List[str]]:
-    """
-    PICTモデルファイルから
+def parse_model_definition(model_path: Path) -> dict[str, list[str]]:
+    """PICTモデルファイルから
     因子順 + 各因子の水準定義順を取得する
     """
-    model: Dict[str, List[str]] = {}
+    model: dict[str, list[str]] = {}
 
     with model_path.open(encoding="utf-8") as f:
         for line in f:
             line = line.strip()
 
-            if not line or line.startswith("#"):
-                continue
-            if ":" not in line:
+            # サブモデルと制約条件の記述を除外し、モデルのみ後続の処理をする。
+            if not re.search(r"^\s*([^:]+?)\s*:\s*(.+)$", line):
                 continue
 
             factor, levels_part = line.split(":", 1)

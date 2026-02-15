@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from pict2.core.pict_runner import PictRunner
+from pict2.mylib.convert_to_dicision_tab import convert_to_decision_tab
 from pict2.mylib.normlize_pict_output import normalize_pict_output
 from pict2.mylib.parse_model_definition import parse_model_definition
 from pict2.mylib.sort_rows_by_model_order import sort_rows_by_model_order
@@ -39,6 +40,14 @@ def parse_args() -> argparse.Namespace:
         "--file",
         dest="file",
         help="Output file path",
+    )
+
+    parser.add_argument(
+        "-D",
+        "--decision-table",
+        dest="decision_table",
+        action="store_true",
+        help="Generate decision table output",
     )
 
     return parser.parse_args()
@@ -87,6 +96,9 @@ def main() -> None:
         model_def=model_def,
     )
     output = output[0] + "\n" + "\n".join(output[1:])  # ヘッダを先頭に追加
+
+    if args.decision_table:
+        output = convert_to_decision_tab(output)
 
     if output_path is not None:
         with open(output_path, "w", encoding="utf-8", newline="") as f:
