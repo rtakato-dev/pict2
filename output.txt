@@ -1,0 +1,14 @@
+Vista Edition	RAM	GRAM
+Ultimate	1.5G	64M
+Ultimate	1.5G	128M
+Ultimate	1.5G	256M
+Ultimate	1.5G	512M
+Business	0.5G	64M
+Home Premium	2G	64M
+Home Premium	2G	128M
+Home Premium	2G	256M
+Home Premium	2G	512M
+Home Basic	1G	64M
+Home Basic	1G	128M
+Home Basic	1G	256M
+Home Basic	1G	512M

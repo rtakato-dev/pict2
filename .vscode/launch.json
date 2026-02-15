@@ -1,0 +1,41 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "exec PICT2 option:None",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pict2",
+            "args": [
+                "sample.pict"
+            ]
+        },
+        {
+            "name": "exec PICT2 option:file",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pict2",
+            "args": [
+                "sample.pict",
+                "-f",
+                "output.txt"
+            ]
+        },
+        {
+            "name": "exec PICT2 option:file,decision_table",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pict2",
+            "args": [
+                "sample.pict",
+                "-f",
+                "output.txt",
+                "-D",
+            ]
+        },
+    ]
+}
