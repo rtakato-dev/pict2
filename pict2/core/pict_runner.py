@@ -1,11 +1,16 @@
 import subprocess
+import sys
 from pathlib import Path
 
 
 class PictRunner:
     def __init__(self, pict_path: Path | None = None):
         if pict_path is None:
-            pict_path = Path(__file__).resolve().parent / "pict.exe"
+            if getattr(sys, "frozen", False):
+                # If the application is frozen (e.g., by PyInstaller), use the executable's directory
+                pict_path = Path(sys._MEIPASS) / "pict.exe"
+            else:
+                pict_path = Path(__file__).resolve().parent / "pict.exe"
 
         self.pict_path = pict_path
 
